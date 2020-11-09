@@ -1,0 +1,9 @@
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\obj\Debug\Assignment 2.csprojAssemblyReference.cache
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\obj\Debug\Assignment_2.Properties.Resources.resources
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\obj\Debug\Assignment 2.csproj.GenerateResource.cache
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\obj\Debug\Assignment 2.csproj.CoreCompileInputs.cache
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\bin\Debug\Assignment 2.exe.config
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\bin\Debug\Assignment 2.exe
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\bin\Debug\Assignment 2.pdb
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\obj\Debug\Assignment 2.exe
+D:\Users\kitsu\Documents\CPSC 300\Assignment 2\obj\Debug\Assignment 2.pdb
