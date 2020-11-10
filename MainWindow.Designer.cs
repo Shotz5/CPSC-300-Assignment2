@@ -30,35 +30,49 @@ namespace Assignment_2
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.inputfile = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
-            // button1
+            // inputfile
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.button1.Location = new System.Drawing.Point(244, 164);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(280, 66);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Open Input File";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.inputfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.inputfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.inputfile.Location = new System.Drawing.Point(260, 192);
+            this.inputfile.Name = "inputfile";
+            this.inputfile.Size = new System.Drawing.Size(156, 41);
+            this.inputfile.TabIndex = 0;
+            this.inputfile.Text = "Open Input File";
+            this.inputfile.UseVisualStyleBackColor = true;
+            this.inputfile.Click += new System.EventHandler(this.inputfile_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(652, 401);
+            this.flowLayoutPanel1.TabIndex = 1;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button1);
+            this.BackColor = System.Drawing.SystemColors.GrayText;
+            this.ClientSize = new System.Drawing.Size(676, 425);
+            this.Controls.Add(this.inputfile);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "MainWindow";
-            this.Text = "Form1";
+            this.Text = "Bank Line Simulator";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private Button button1;
+        private Button inputfile;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
 
