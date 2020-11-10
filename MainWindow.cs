@@ -31,6 +31,11 @@ namespace Assignment_2
             if (result == DialogResult.OK) {
                 try {
                     var filePath = openFile.FileName;
+                    String inputtext;
+                    using (var input = new StreamReader(filePath)) {
+                        inputtext = input.ReadToEnd();
+                    }
+                    MessageBox.Show(inputtext);
                 } catch (Exception eve) {
                     MessageBox.Show($"{eve.Message}\n\n {eve.StackTrace}");
                 }
