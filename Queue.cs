@@ -10,13 +10,13 @@ namespace Assignment_2 {
 			queue = new ArrayList();
 		}
 
-		public Person popQueue() {
-			Person p = (Person) queue[0];
+		public Object popQueue() {
+			var p = queue[0];
 			queue.RemoveAt(0);
 			return p;
         }
 
-		public void pushQueue(Person p) {
+		public void pushQueue(Object p) {
 			queue.Add(p);
         }
 		
@@ -28,7 +28,7 @@ namespace Assignment_2 {
             }
         }
 
-		public int count() {
+		public int Count() {
 			return queue.Count;
         }
 	}
