@@ -31,7 +31,6 @@ namespace Assignment_2
         private void InitializeComponent()
         {
             this.inputfile = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // inputfile
@@ -48,13 +47,6 @@ namespace Assignment_2
             this.inputfile.UseVisualStyleBackColor = true;
             this.inputfile.Click += new System.EventHandler(this.inputfile_Click);
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(652, 401);
-            this.flowLayoutPanel1.TabIndex = 1;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -62,7 +54,6 @@ namespace Assignment_2
             this.BackColor = System.Drawing.SystemColors.GrayText;
             this.ClientSize = new System.Drawing.Size(676, 425);
             this.Controls.Add(this.inputfile);
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "MainWindow";
             this.Text = "Bank Line Simulator";
             this.ResumeLayout(false);
@@ -72,7 +63,6 @@ namespace Assignment_2
         #endregion
 
         private Button inputfile;
-        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
 
