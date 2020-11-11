@@ -4,10 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Assignment_2
-{
-    static class Program
-    {
+namespace Assignment_2 {
+    static class Program {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -17,6 +15,5 @@ namespace Assignment_2
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow());
         }
-
     }
 }
