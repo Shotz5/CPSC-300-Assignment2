@@ -5,8 +5,9 @@ using System.Windows.Forms;
 namespace Assignment_2 {
     public partial class MainWindow : Form {
         public OpenFileDialog openFile;
-        Queue queue;
-        EventList eventList;
+        public Queue queue;
+        public EventList eventList;
+        public int time;
         public MainWindow() {
             InitializeComponent();
             queue = new Queue();
@@ -38,7 +39,18 @@ namespace Assignment_2 {
                 string nextInput = "";
                 while ((nextInput = stream.ReadLine()) != null) {
                     Person person = parsePerson(nextInput);
+                    Event arrivalEvent = new Event(Event.ARRIVAL, (person.arrivalTime + person.windowTime)); // Fix this
                     processArrival(person);
+                }
+            }
+
+            // Fix this too, not ordered properly tbh
+            while(!eventList.isEmpty()) {
+                Event eve = (Event) eventList.Dequeue();
+                if (eve.type == Event.ARRIVAL) {
+
+                } else if (eve.type == Event.DEPARTURE) {
+                    processDeparture();
                 }
             }
         }
@@ -63,19 +75,29 @@ namespace Assignment_2 {
                 intWaitTime = Int32.Parse(waitTime);
                 intTellerTime = Int32.Parse(tellerTime);
             } catch (Exception e) {
-                // Sourced from https://stackoverflow.com/questions/2109441/how-to-show-error-warning-message-box-in-net-how-to-customize-messagebox
                 MessageBox.Show($"Unable to parse input file.\n\n{e.Message}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Person person = new Person(intWaitTime, intTellerTime);
             return person;
         }
 
+        // Meh not right
         private void processArrival(Person p) {
-            Console.WriteLine(p.arrivalTime + " " + p.windowTime);
             queue.pushQueue(p); //  Add new customer to tail of queue
-            if (queue.count() == 1) { // If queue was empty
-                // TODO: Create departure event
-                // TODO: Make model of queue on GUI
+            if (queue.Count() == 1) { // If queue was empty
+                Event newDeparture = new Event(Event.DEPARTURE, (p.arrivalTime + p.windowTime)); // Create departure event
+                eventList.Enqueue(newDeparture);
+            } else {
+
+            }
+        }
+
+        // Also not quite right
+        private void processDeparture() {
+            Person p = (Person) queue.popQueue();
+            if (!queue.isEmpty()) {
+                Event newDeparture = new Event(Event.DEPARTURE, (p.arrivalTime + p.windowTime));
+                eventList.Enqueue(newDeparture);
             }
         }
     }
