@@ -1,13 +1,39 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace Assignment_2 {
 	public class Person {
 
-		public int arrivalTime;
-		public int windowTime;
+		private int arrivalTime;
+		private int windowTime;
+		private int waitTime;
+		private static int people = 1;
+		private int personNumber;
 		public Person(int arrivalTime, int windowTime) {
 			this.arrivalTime = arrivalTime;
 			this.windowTime = windowTime;
+			this.personNumber = people;
+			people++;
 		}
+
+		public int getArrivalTime() {
+			return arrivalTime;
+        }
+
+		public int getWindowTime() {
+			return windowTime;
+        }
+
+		public int getPersonNumber() {
+			return personNumber;
+        }
+
+		public void setWaitTime(int waitTime) {
+			this.waitTime = waitTime;
+        }
+
+		public int getWaitTime() {
+			return waitTime;
+        }
 	}
 }
