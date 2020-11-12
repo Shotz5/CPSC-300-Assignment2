@@ -1,21 +1,27 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Assignment_2 {
     public partial class MainWindow : Form {
+
         public OpenFileDialog openFile;
-        public Queue queue;
+        private StreamReader fileInput;
+
+        public Queue customerQueue;
         public EventList eventList;
         public int time;
+        public int timeWaiting;
+
         public MainWindow() {
             InitializeComponent();
-            queue = new Queue();
+            customerQueue = new Queue();
             eventList = new EventList();
         }
 
         private void inputfile_Click(object sender, EventArgs e) {
-            var filePath = "";
             openFile = new OpenFileDialog() {
                 FileName = "BankFile.txt",
                 Filter = "Text files (*.txt)|*.txt",
@@ -25,33 +31,73 @@ namespace Assignment_2 {
             DialogResult result = openFile.ShowDialog();
             if (result == DialogResult.OK) {
                 try {
-                    filePath = openFile.FileName;
-                } catch (Exception eve) {
-                    MessageBox.Show($"{eve.Message}\n\n {eve.StackTrace}");
+                    fileInput = new StreamReader(openFile.FileName);
+                } catch (Exception ex) {
+                    MessageBox.Show($"{ex.Message}\n\n {ex.StackTrace}");
                 }
             } else if (result == DialogResult.Cancel) {
                 MessageBox.Show("User cancelled Bank Line input");
+                return;
             }
+
             var button = (Button) sender;
             button.Visible = false;
 
-            using (StreamReader stream = new StreamReader(filePath)) {
-                string nextInput = "";
-                while ((nextInput = stream.ReadLine()) != null) {
-                    Person person = parsePerson(nextInput);
-                    Event arrivalEvent = new Event(Event.ARRIVAL, (person.arrivalTime + person.windowTime)); // Fix this
-                    processArrival(person);
+            Event firstArrival = readNextArrival(); // Read first arrival event from data file
+            eventList.Enqueue(firstArrival); // and put it in the event list
+
+            while(!eventList.isEmpty()) { // while eventlist is not empty
+                Event nextEvent = eventList.Dequeue(); // take next event from the ordered event list
+                if (nextEvent.getType() == Event.ARRIVAL) { // If it's an arrival event
+                    processArrival(nextEvent); // Process arrival
+                } else if (nextEvent.getType() == Event.DEPARTURE) { // If it's a departure event
+                    processDeparture(); // Process departure
                 }
             }
+        }
+        private Event readNextArrival() {
+            String nextLine = fileInput.ReadLine();
+            if (nextLine == null) {
+                return null;
+            }
+            Person person = parsePerson(nextLine);
+            Event arrivalEvent = new Event(Event.ARRIVAL, person.getArrivalTime(), person);
+            return arrivalEvent;
+        }
 
-            // Fix this too, not ordered properly tbh
-            while(!eventList.isEmpty()) {
-                Event eve = (Event) eventList.Dequeue();
-                if (eve.type == Event.ARRIVAL) {
+        // ARRIVAL TIMES WORK, THIS DEPARTURE TIME LOGICALLY SHOULD WORK?
+        private void processArrival(Event eve) {
+            Person eventPerson = eve.getPerson(); // Get person for event
+            customerQueue.pushQueue(eventPerson); // Add new customer to tail of queue
+            time = eventPerson.getArrivalTime();
 
-                } else if (eve.type == Event.DEPARTURE) {
-                    processDeparture();
-                }
+            Console.WriteLine("Person " + eventPerson.getPersonNumber() + " arrived at " + time); // Customer has arrived
+
+            if (customerQueue.Count() == 1) { // Customer queue was empty
+                Event departureEvent = new Event(Event.DEPARTURE, (eventPerson.getArrivalTime() + eventPerson.getWindowTime()), eventPerson); // Create new departureEvent
+                eventList.Enqueue(departureEvent); // Insert this in order in the eventList
+                timeWaiting += 0;
+            }
+
+            Event nextArrival = readNextArrival();
+            if (nextArrival != null) { // If not EOF
+                eventList.Enqueue(nextArrival); // Read next arrival and ordered insert it
+            }
+        }
+
+        // THESE TIME STAMPS DO NOT WORK, WHY CANT I GET IT TO WORK AHHHHHHHH
+        // THIS IS GARBAGE FIX THIS
+        private void processDeparture() {
+            Person finishedCustomer = customerQueue.popQueue();
+            time = (timeWaiting + finishedCustomer.getArrivalTime() + finishedCustomer.getWindowTime());
+
+            Console.WriteLine("Person " + finishedCustomer.getPersonNumber() + " popped at " + time);
+
+            if (customerQueue.Count() != 0) {
+                Person nextPerson = customerQueue.peek();
+                Event departureEvent = new Event(Event.DEPARTURE, (time + nextPerson.getWindowTime()), nextPerson);
+                eventList.Enqueue(departureEvent);
+                timeWaiting += (time - nextPerson.getArrivalTime());
             }
         }
 
@@ -81,24 +127,8 @@ namespace Assignment_2 {
             return person;
         }
 
-        // Meh not right
-        private void processArrival(Person p) {
-            queue.pushQueue(p); //  Add new customer to tail of queue
-            if (queue.Count() == 1) { // If queue was empty
-                Event newDeparture = new Event(Event.DEPARTURE, (p.arrivalTime + p.windowTime)); // Create departure event
-                eventList.Enqueue(newDeparture);
-            } else {
+        private void MainWindow_Load(object sender, EventArgs e) {
 
-            }
-        }
-
-        // Also not quite right
-        private void processDeparture() {
-            Person p = (Person) queue.popQueue();
-            if (!queue.isEmpty()) {
-                Event newDeparture = new Event(Event.DEPARTURE, (p.arrivalTime + p.windowTime));
-                eventList.Enqueue(newDeparture);
-            }
         }
     }
 }

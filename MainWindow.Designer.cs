@@ -56,6 +56,7 @@ namespace Assignment_2
             this.Controls.Add(this.inputfile);
             this.Name = "MainWindow";
             this.Text = "Bank Line Simulator";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.ResumeLayout(false);
 
         }
