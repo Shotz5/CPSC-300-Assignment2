@@ -34,7 +34,7 @@ namespace Assignment_2 {
 
 		public Person peek() {
 			if (queue.Count != 0) {
-				return (Person)queue[queue.Count - 1];
+				return (Person)queue[0];
 			} else {
 				return null;
             }
