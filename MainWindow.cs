@@ -49,10 +49,11 @@ namespace Assignment_2 {
                 return;
             }
 
-            // Check file to ensure all input is proper
-            if (!checkFile()) {
-
+            // If error parsing, stop
+            if (!checkOrder()) {
+                return;
             }
+            fileInput = new StreamReader(openFile.FileName);
 
             // Hide input file selection button
             var button = (Button) sender;
@@ -183,8 +184,27 @@ namespace Assignment_2 {
             return person;
         }
 
-        private bool checkFile() {
-            
+        private bool checkOrder() {
+            string nextLine;
+            int lastArrivalTime = 0;
+
+            while ((nextLine = fileInput.ReadLine()) != null) {
+                Person p = parsePerson(nextLine);
+                
+                if (p == null) {
+                    return false;
+                }
+
+                int thisArrivalTime = p.getArrivalTime();
+                int thisWindowTime = p.getWindowTime();
+
+                // If arrivalTimes aren't in order, or windowTime is negative
+                if (lastArrivalTime > thisArrivalTime || thisWindowTime < 1) {
+                    MessageBox.Show($"Unable to parse input file at {nextLine}.\n\n Times are not in numerical order or time at window is invalid.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
