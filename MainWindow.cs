@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Assignment_2 {
@@ -68,25 +69,8 @@ namespace Assignment_2 {
             eventList.Enqueue(firstArrival);
 
             // While eventlist is not empty
-            while (!eventList.isEmpty()) {
-                // Take next event from the ordered event list
-                Event nextEvent = eventList.Dequeue();
-                // If it's an arrival event
-                if (nextEvent.getType() == Event.ARRIVAL) {
-                    // Process arrival
-                    processArrival(nextEvent);
-                // If it's a departure event
-                } else if (nextEvent.getType() == Event.DEPARTURE) {
-                    // Process departure
-                    processDeparture(); 
-                }
-            }
-            generateFinalSummary();
-            // Show output textbox and output to txt button
-            this.textBox1.Visible = true;
-            this.outputfile.Visible = true;
+            this.backgroundWorker1.RunWorkerAsync();
         }
-
 
         /// <summary>
         /// Reads the next line from the file and returns an arrival event
@@ -114,8 +98,10 @@ namespace Assignment_2 {
             // Update current time
             time = eventPerson.getArrivalTime();
 
-            this.textBox1.AppendText(String.Format("Time:{0,6}    Person Number:{1,6}    Arrived", time, eventPerson.getPersonNumber())); // Customer has arrived
-            this.textBox1.AppendText(Environment.NewLine);
+            this.Invoke(new MethodInvoker(delegate () {
+                this.textBox1.AppendText(String.Format("Time:{0,6}    Person Number:{1,6}    Arrived", time, eventPerson.getPersonNumber())); // Customer has arrived
+                this.textBox1.AppendText(Environment.NewLine);
+            }));
 
             // Customer queue was empty
             if (customerQueue.Count() == 1) {
@@ -148,8 +134,10 @@ namespace Assignment_2 {
             // Update current time
             time = (finishedCustomer.getDepartureTime());
 
-            this.textBox1.AppendText(String.Format("Time:{0,6}    Person Number:{1,6}    Departed   Waited: {2,3}", time, finishedCustomer.getPersonNumber(), finishedCustomer.getWaitTime()));
-            this.textBox1.AppendText(Environment.NewLine);
+            this.Invoke(new MethodInvoker(delegate () {
+                this.textBox1.AppendText(String.Format("Time:{0,6}    Person Number:{1,6}    Departed   Waited: {2,3}", time, finishedCustomer.getPersonNumber(), finishedCustomer.getWaitTime()));
+                this.textBox1.AppendText(Environment.NewLine);
+            }));
 
             // If someone else is waiting
             if (customerQueue.Count() != 0) {
@@ -277,6 +265,28 @@ namespace Assignment_2 {
                 return;
             }
             File.WriteAllText(path, outputBox);
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e) {
+            while (!eventList.isEmpty()) {
+                // Take next event from the ordered event list
+                Event nextEvent = eventList.Dequeue();
+                // If it's an arrival event
+                if (nextEvent.getType() == Event.ARRIVAL) {
+                    // Process arrival
+                    processArrival(nextEvent);
+                    // If it's a departure event
+                } else if (nextEvent.getType() == Event.DEPARTURE) {
+                    // Process departure
+                    processDeparture();
+                }
+            }
+            this.Invoke(new MethodInvoker(delegate () {
+                generateFinalSummary();
+                // Show output textbox and output to txt button
+                this.textBox1.Visible = true;
+                this.outputfile.Visible = true;
+            }));
         }
     }
 }

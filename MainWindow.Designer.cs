@@ -33,6 +33,7 @@ namespace Assignment_2
             this.inputfile = new System.Windows.Forms.Button();
             this.outputfile = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // inputfile
@@ -51,7 +52,7 @@ namespace Assignment_2
             // 
             this.outputfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.outputfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.outputfile.Location = new System.Drawing.Point(850, 584);
+            this.outputfile.Location = new System.Drawing.Point(831, 584);
             this.outputfile.Name = "outputfile";
             this.outputfile.Size = new System.Drawing.Size(172, 48);
             this.outputfile.TabIndex = 1;
@@ -70,9 +71,15 @@ namespace Assignment_2
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox1.Size = new System.Drawing.Size(1010, 620);
             this.textBox1.TabIndex = 2;
             this.textBox1.Visible = false;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // MainWindow
             // 
@@ -96,6 +103,7 @@ namespace Assignment_2
         private Button inputfile;
         private Button outputfile;
         private TextBox textBox1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
