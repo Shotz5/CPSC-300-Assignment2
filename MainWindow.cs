@@ -1,26 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Windows.Forms;
 
 namespace Assignment_2 {
     public partial class MainWindow : Form {
-
         
         private StreamReader fileInput;
+        private ArrayList peopleServed;
+        private Queue customerQueue;
+        private EventList eventList;
+        private int time;
 
-        public Queue customerQueue;
-        public EventList eventList;
-        public int time;
-
+        /// <summary>
+        /// Initialize the main application window
+        /// </summary>
         public MainWindow() {
             InitializeComponent();
             // Initialize empty queue and eventlist
             customerQueue = new Queue();
             eventList = new EventList();
+            peopleServed = new ArrayList();
         }
 
         /// <summary>
-        /// When user clicks the input file button
+        /// EventHandler for input file button click
         /// </summary>
         /// <returns>void</returns>
         private void inputfile_Click(object sender, EventArgs e) {
@@ -33,6 +37,7 @@ namespace Assignment_2 {
 
             // Show the diaglog to the user
             DialogResult result = openFile.ShowDialog();
+
             // If user selects file and clicks 'ok'
             if (result == DialogResult.OK) {
                 try {
@@ -46,12 +51,12 @@ namespace Assignment_2 {
                 return;
             }
 
-            // If error parsing, stop
-            if (!checkOrder()) {
+            // Initial check to make sure all arrival times are ordered and are parsable
+            if (!checkFile()) {
                 return;
             }
+            // Reset Stream from top of file by just resetting the stream
             fileInput = new StreamReader(openFile.FileName);
-            Person.resetPersonCounter();
 
             // Hide input file selection button
             var button = (Button) sender;
@@ -62,9 +67,9 @@ namespace Assignment_2 {
             // And put it in the event list
             eventList.Enqueue(firstArrival);
 
-            // while eventlist is not empty
+            // While eventlist is not empty
             while (!eventList.isEmpty()) {
-                // take next event from the ordered event list
+                // Take next event from the ordered event list
                 Event nextEvent = eventList.Dequeue();
                 // If it's an arrival event
                 if (nextEvent.getType() == Event.ARRIVAL) {
@@ -76,7 +81,10 @@ namespace Assignment_2 {
                     processDeparture(); 
                 }
             }
+            generateFinalSummary();
+            // Show output textbox and output to txt button
             this.textBox1.Visible = true;
+            this.outputfile.Visible = true;
         }
 
 
@@ -115,7 +123,7 @@ namespace Assignment_2 {
                 Event departureEvent = new Event(Event.DEPARTURE, (eventPerson.getArrivalTime() + eventPerson.getWindowTime()), eventPerson);
                 // Insert this in order in the eventList
                 eventList.Enqueue(departureEvent); 
-                // Update wait time
+                // Update persons wait time
                 eventPerson.setWaitTime(0);
             }
 
@@ -135,8 +143,10 @@ namespace Assignment_2 {
         private void processDeparture() {
             // Remove first customer from queue
             Person finishedCustomer = customerQueue.popQueue();
+            // Add it to list for final summary
+            peopleServed.Add(finishedCustomer);
             // Update current time
-            time = (finishedCustomer.getArrivalTime()  + finishedCustomer.getWaitTime() + finishedCustomer.getWindowTime());
+            time = (finishedCustomer.getDepartureTime());
 
             this.textBox1.AppendText(String.Format("Time:{0,6}    Person Number:{1,6}    Departed   Waited: {2,3}", time, finishedCustomer.getPersonNumber(), finishedCustomer.getWaitTime()));
             this.textBox1.AppendText(Environment.NewLine);
@@ -185,13 +195,15 @@ namespace Assignment_2 {
             return person;
         }
 
-        private bool checkOrder() {
+        private bool checkFile() {
             string nextLine;
             int lastArrivalTime = 0;
 
+            // While the file has new input
             while ((nextLine = fileInput.ReadLine()) != null) {
                 Person p = parsePerson(nextLine);
                 
+                // If there was an error parsing a person
                 if (p == null) {
                     return false;
                 }
@@ -206,22 +218,65 @@ namespace Assignment_2 {
                 }
                 lastArrivalTime = thisArrivalTime;
             }
+            // Reset person counter back to 1
+            Person.resetPersonCounter();
             return true;
         }
 
-        private void outputfile_Click(object sender, EventArgs e) {
-            string path;
-            FolderBrowserDialog selectFolder = new FolderBrowserDialog() {
-                Description = "Select folder"
-            };
+        /// <summary>
+        /// Generate final summary for customers visiting in simulation
+        /// </summary>
+        private void generateFinalSummary() {
+            this.textBox1.AppendText(Environment.NewLine);
+            this.textBox1.AppendText("All events complete. Final summary: ");
+            this.textBox1.AppendText(Environment.NewLine);
+            this.textBox1.AppendText(Environment.NewLine);
+            this.textBox1.AppendText("Customer Number | Arrival Time | Wait Time | Arrival At Window | Window Time | Departed At");
+            this.textBox1.AppendText(Environment.NewLine);
+            this.textBox1.AppendText("------------------------------------------------------------------------------------------");
+            this.textBox1.AppendText(Environment.NewLine);
 
+            // Iterates through all visited customers
+            for (int i = 0; i < peopleServed.Count; i++) {
+                Person person = (Person) peopleServed[i];
+                this.textBox1.AppendText(String.Format("{0,15} | {1,12} | {2,9} | {3,17} | {4,11} | {5,11}",
+                    person.getPersonNumber(),
+                    person.getArrivalTime(),
+                    person.getWaitTime(),
+                    person.getArrivalAtWindow(),
+                    person.getWindowTime(),
+                    person.getDepartureTime()
+                    ));
+                this.textBox1.AppendText(Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// Outputs text in textbox to .txt file
+        /// </summary>
+        private void outputfile_Click(object sender, EventArgs e) {
+            string outputBox = this.textBox1.Text;
+            string path = "";
+
+            // Builds user dialog
+            OpenFileDialog selectFolder = new OpenFileDialog() {
+                FileName = "output.txt",
+                Filter = "Text files (*.txt)|*.txt",
+                Title = "Select where to output bank lineup file",
+                CheckFileExists = false
+            };
+            // Shows user dialog box
             DialogResult result = selectFolder.ShowDialog();
 
-            if (DialogResult == DialogResult.OK) {
-                path = selectFolder.SelectedPath;
+            // If user clicks 'open'
+            if (result == DialogResult.OK) {
+                path = selectFolder.FileName;
+            // If user clicks 'cancel'
+            } else if (result == DialogResult.Cancel) {
+                MessageBox.Show($"User cancelled file output.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            
-            //File.WriteAllLines(path, )
+            File.WriteAllText(path, outputBox);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Assignment_2
             // 
             this.inputfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.inputfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.inputfile.Location = new System.Drawing.Point(205, 165);
+            this.inputfile.Location = new System.Drawing.Point(408, 272);
             this.inputfile.Name = "inputfile";
             this.inputfile.Size = new System.Drawing.Size(218, 101);
             this.inputfile.TabIndex = 0;
@@ -51,11 +51,11 @@ namespace Assignment_2
             // 
             this.outputfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.outputfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.outputfile.Location = new System.Drawing.Point(431, 350);
+            this.outputfile.Location = new System.Drawing.Point(850, 584);
             this.outputfile.Name = "outputfile";
-            this.outputfile.Size = new System.Drawing.Size(185, 68);
+            this.outputfile.Size = new System.Drawing.Size(172, 48);
             this.outputfile.TabIndex = 1;
-            this.outputfile.Text = "Output Comprehensive Summary to .txt file";
+            this.outputfile.Text = "Output to .txt file";
             this.outputfile.UseVisualStyleBackColor = true;
             this.outputfile.Visible = false;
             this.outputfile.Click += new System.EventHandler(this.outputfile_Click);
@@ -70,7 +70,7 @@ namespace Assignment_2
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(604, 406);
+            this.textBox1.Size = new System.Drawing.Size(1010, 620);
             this.textBox1.TabIndex = 2;
             this.textBox1.Visible = false;
             // 
@@ -80,7 +80,7 @@ namespace Assignment_2
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.MenuText;
-            this.ClientSize = new System.Drawing.Size(628, 430);
+            this.ClientSize = new System.Drawing.Size(1034, 644);
             this.Controls.Add(this.outputfile);
             this.Controls.Add(this.inputfile);
             this.Controls.Add(this.textBox1);
