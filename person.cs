@@ -35,5 +35,9 @@ namespace Assignment_2 {
 		public int getWaitTime() {
 			return waitTime;
         }
+
+		public int getArrivalAtWindow() {
+			return (this.arrivalTime + this.waitTime);
+        }
 	}
 }
