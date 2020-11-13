@@ -1,19 +1,16 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Assignment_2 {
     public partial class MainWindow : Form {
 
-        public OpenFileDialog openFile;
+        
         private StreamReader fileInput;
 
         public Queue customerQueue;
         public EventList eventList;
         public int time;
-        public int timeWaiting;
 
         public MainWindow() {
             InitializeComponent();
@@ -28,7 +25,7 @@ namespace Assignment_2 {
         /// <returns>void</returns>
         private void inputfile_Click(object sender, EventArgs e) {
             // Sets default parameters for Windows file section box
-            openFile = new OpenFileDialog() {
+            OpenFileDialog openFile = new OpenFileDialog() {
                 FileName = "BankFile.txt",
                 Filter = "Text files (*.txt)|*.txt",
                 Title = "Open Bank Lineup File"
@@ -54,6 +51,7 @@ namespace Assignment_2 {
                 return;
             }
             fileInput = new StreamReader(openFile.FileName);
+            Person.resetPersonCounter();
 
             // Hide input file selection button
             var button = (Button) sender;
@@ -78,6 +76,7 @@ namespace Assignment_2 {
                     processDeparture(); 
                 }
             }
+            this.textBox1.Visible = true;
         }
 
 
@@ -107,7 +106,8 @@ namespace Assignment_2 {
             // Update current time
             time = eventPerson.getArrivalTime();
 
-            Console.WriteLine("Person " + eventPerson.getPersonNumber() + " arrived at " + time); // Customer has arrived
+            this.textBox1.AppendText(String.Format("Time:{0,6}    Person Number:{1,6}    Arrived", time, eventPerson.getPersonNumber())); // Customer has arrived
+            this.textBox1.AppendText(Environment.NewLine);
 
             // Customer queue was empty
             if (customerQueue.Count() == 1) {
@@ -138,7 +138,8 @@ namespace Assignment_2 {
             // Update current time
             time = (finishedCustomer.getArrivalTime()  + finishedCustomer.getWaitTime() + finishedCustomer.getWindowTime());
 
-            Console.WriteLine("Person " + finishedCustomer.getPersonNumber() + " popped at " + time);
+            this.textBox1.AppendText(String.Format("Time:{0,6}    Person Number:{1,6}    Departed   Waited: {2,3}", time, finishedCustomer.getPersonNumber(), finishedCustomer.getWaitTime()));
+            this.textBox1.AppendText(Environment.NewLine);
 
             // If someone else is waiting
             if (customerQueue.Count() != 0) {
@@ -205,6 +206,21 @@ namespace Assignment_2 {
                 }
             }
             return true;
+        }
+
+        private void outputfile_Click(object sender, EventArgs e) {
+            string path;
+            FolderBrowserDialog selectFolder = new FolderBrowserDialog() {
+                Description = "Select folder"
+            };
+
+            DialogResult result = selectFolder.ShowDialog();
+
+            if (DialogResult == DialogResult.OK) {
+                path = selectFolder.SelectedPath;
+            }
+            
+            //File.WriteAllLines(path, )
         }
     }
 }

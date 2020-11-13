@@ -39,5 +39,9 @@ namespace Assignment_2 {
 		public int getArrivalAtWindow() {
 			return (this.arrivalTime + this.waitTime);
         }
+
+		public static void resetPersonCounter() {
+			people = 1;
+        }
 	}
 }
