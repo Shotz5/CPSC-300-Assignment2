@@ -34,6 +34,9 @@ namespace Assignment_2
             this.outputfile = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.finalsummary = new System.Windows.Forms.Label();
+            this.progress = new System.Windows.Forms.ProgressBar();
+            this.simulating = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // inputfile
@@ -80,6 +83,41 @@ namespace Assignment_2
             // 
             this.backgroundWorker1.WorkerReportsProgress = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            // 
+            // finalsummary
+            // 
+            this.finalsummary.AutoSize = true;
+            this.finalsummary.BackColor = System.Drawing.SystemColors.Window;
+            this.finalsummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.finalsummary.Location = new System.Drawing.Point(354, 303);
+            this.finalsummary.Name = "finalsummary";
+            this.finalsummary.Padding = new System.Windows.Forms.Padding(5);
+            this.finalsummary.Size = new System.Drawing.Size(326, 39);
+            this.finalsummary.TabIndex = 3;
+            this.finalsummary.Text = "Generating Final Summary...";
+            this.finalsummary.Visible = false;
+            // 
+            // progress
+            // 
+            this.progress.Location = new System.Drawing.Point(388, 379);
+            this.progress.Name = "progress";
+            this.progress.Size = new System.Drawing.Size(256, 37);
+            this.progress.TabIndex = 4;
+            this.progress.Visible = false;
+            // 
+            // simulating
+            // 
+            this.simulating.AutoSize = true;
+            this.simulating.BackColor = System.Drawing.SystemColors.Window;
+            this.simulating.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simulating.Location = new System.Drawing.Point(440, 303);
+            this.simulating.Name = "simulating";
+            this.simulating.Padding = new System.Windows.Forms.Padding(5);
+            this.simulating.Size = new System.Drawing.Size(154, 39);
+            this.simulating.TabIndex = 5;
+            this.simulating.Text = "Simulating...";
+            this.simulating.Visible = false;
             // 
             // MainWindow
             // 
@@ -88,6 +126,9 @@ namespace Assignment_2
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.MenuText;
             this.ClientSize = new System.Drawing.Size(1034, 644);
+            this.Controls.Add(this.simulating);
+            this.Controls.Add(this.progress);
+            this.Controls.Add(this.finalsummary);
             this.Controls.Add(this.outputfile);
             this.Controls.Add(this.inputfile);
             this.Controls.Add(this.textBox1);
@@ -104,6 +145,9 @@ namespace Assignment_2
         private Button outputfile;
         private TextBox textBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private Label finalsummary;
+        private ProgressBar progress;
+        private Label simulating;
     }
 }
 
