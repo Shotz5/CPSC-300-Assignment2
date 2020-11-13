@@ -204,6 +204,7 @@ namespace Assignment_2 {
                     MessageBox.Show($"Unable to parse input file at {nextLine}.\n\n Times are not in numerical order or time at window is invalid.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
+                lastArrivalTime = thisArrivalTime;
             }
             return true;
         }
