@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -8,25 +10,29 @@ namespace Assignment_2 {
     public partial class MainWindow : Form {
         
         private StreamReader fileInput;
-        private ArrayList peopleServed;
+        private LinkedList<Person> peopleServed;
         private Queue customerQueue;
         private EventList eventList;
         private int time;
 
-        private string writeVar;
-        private int count = 0;
-        private int totalCount = 0;
+        StringBuilder writeVar;
+        private int totalCount;
+        private int progressBarUpdate;
+        private int counter;
 
         /// <summary>
         /// Initialize the main application window
         /// </summary>
         public MainWindow() {
             InitializeComponent();
-            // Initialize empty queue and eventlist
+            // Initialize empty queue and eventlist, and other vars needed
             customerQueue = new Queue();
             eventList = new EventList();
-            peopleServed = new ArrayList();
-            writeVar = "";
+            peopleServed = new LinkedList<Person>();
+            writeVar = new StringBuilder();
+            totalCount = 0;
+            progressBarUpdate = 0;
+            counter = 0;
         }
 
         /// <summary>
@@ -72,6 +78,7 @@ namespace Assignment_2 {
             // Show progress bar
             progress.Visible = true;
             progress.Maximum = (totalCount * 3);
+            progressBarUpdate = (int) ((totalCount * 3) * ((double)(1d / 100d)));
             simulating.Visible = true;
 
             // Read first arrival event from data file
@@ -82,6 +89,40 @@ namespace Assignment_2 {
 
             // Run Main execution async from GUI thread
             backgroundWorker1.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// Checks file for invalid data before running through it
+        /// </summary>
+        /// <returns>boolean true = continue / false = stop</returns>
+        private bool checkFile() {
+            string nextLine;
+            int lastArrivalTime = 0;
+
+            // While the file has new input
+            while ((nextLine = fileInput.ReadLine()) != null) {
+                Person p = parsePerson(nextLine);
+                totalCount++;
+
+                // If there was an error parsing a person
+                if (p == null) {
+                    return false;
+                }
+
+                int thisArrivalTime = p.getArrivalTime();
+                int thisWindowTime = p.getWindowTime();
+
+                // If arrivalTimes aren't in order, or windowTime is negative
+                if (lastArrivalTime > thisArrivalTime || thisWindowTime < 1) {
+                    MessageBox.Show($"Unable to parse input file at {nextLine}.\n\n Times are not in numerical order or time at window is invalid.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                lastArrivalTime = thisArrivalTime;
+            }
+
+            // Reset person counter back to 1
+            Person.resetPersonCounter();
+            return true;
         }
 
         /// <summary>
@@ -98,6 +139,36 @@ namespace Assignment_2 {
             return arrivalEvent;
         }
 
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e) {
+            // While eventlist is not empty
+            while (!eventList.isEmpty()) {
+                if (counter % progressBarUpdate == 0) {
+                    backgroundWorker1.ReportProgress(counter);
+                    //appendToSimBox(counter);
+                }
+                // Take next event from the ordered event list
+                Event nextEvent = eventList.Dequeue();
+
+                // If it's an arrival event
+                if (nextEvent.getType() == Event.ARRIVAL) {
+                    // Process arrival
+                    processArrival(nextEvent);
+                    // If it's a departure event
+                } else if (nextEvent.getType() == Event.DEPARTURE) {
+                    // Process departure
+                    processDeparture();
+                }
+                counter++;
+            }
+
+            // Simulation done
+            appendToSimBox((int) ((double) progress.Maximum * (2d/3d)));
+            // Write rest of writeVar to textbox
+            generateFinalSummary();
+            // Append the rest to the sum box
+            appendToSumBox(totalCount * 3);
+        }
+
         /// <summary>
         /// Processes an arrival event
         /// </summary>
@@ -112,10 +183,14 @@ namespace Assignment_2 {
             // Update current time
             time = eventPerson.getArrivalTime();
 
-            // Write to variable
-            writeVar += String.Format("Time:{0,6}    Person Number:{1,6}    Arrived", time, eventPerson.getPersonNumber());
-            writeVar += Environment.NewLine;
-            count++;
+            try {
+                // Write to variable
+                writeVar.Append(String.Format("Time:{0,6}    Person Number:{1,6}    Arrived", time, eventPerson.getPersonNumber()));
+                writeVar.Append(Environment.NewLine);
+            } catch (Exception e) {
+                MessageBox.Show($"Error {e.Message}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
 
             // Customer queue was empty
             if (customerQueue.Count() == 1) {
@@ -146,15 +221,19 @@ namespace Assignment_2 {
             Person finishedCustomer = customerQueue.popQueue();
 
             // Add it to list for final summary
-            peopleServed.Add(finishedCustomer);
+            peopleServed.AddLast(finishedCustomer);
 
             // Update current time
             time = (finishedCustomer.getDepartureTime());
 
-            // Write to variable
-            writeVar += String.Format("Time:{0,6}    Person Number:{1,6}    Departed   Waited: {2,3}", time, finishedCustomer.getPersonNumber(), finishedCustomer.getWaitTime());
-            writeVar += Environment.NewLine;
-            count++;
+            try {
+                // Write to variable
+                writeVar.Append(String.Format("Time:{0,6}    Person Number:{1,6}    Departed   Waited: {2,3}", time, finishedCustomer.getPersonNumber(), finishedCustomer.getWaitTime()));
+                writeVar.Append(Environment.NewLine);
+            } catch (Exception e) {
+                MessageBox.Show($"Error {e.Message}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
 
             // If someone else is waiting
             if (customerQueue.Count() != 0) {
@@ -205,83 +284,27 @@ namespace Assignment_2 {
             return person;
         }
 
-        /// <summary>
-        /// Checks file for invalid data before running through it
-        /// </summary>
-        /// <returns>boolean true = continue / false = stop</returns>
-        private bool checkFile() {
-            string nextLine;
-            int lastArrivalTime = 0;
-
-            // While the file has new input
-            while ((nextLine = fileInput.ReadLine()) != null) {
-                Person p = parsePerson(nextLine);
-                totalCount++;
-                
-                // If there was an error parsing a person
-                if (p == null) {
-                    return false;
-                }
-
-                int thisArrivalTime = p.getArrivalTime();
-                int thisWindowTime = p.getWindowTime();
-
-                // If arrivalTimes aren't in order, or windowTime is negative
-                if (lastArrivalTime > thisArrivalTime || thisWindowTime < 1) {
-                    MessageBox.Show($"Unable to parse input file at {nextLine}.\n\n Times are not in numerical order or time at window is invalid.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-                lastArrivalTime = thisArrivalTime;
-            }
-
-            // Reset person counter back to 1
-            Person.resetPersonCounter();
-            return true;
+        private void appendToSimBox(int progress) {
+            this.Invoke(new MethodInvoker(delegate {
+                try {
+                    this.simoutput.AppendText(writeVar.ToString());
+                } catch (OutOfMemoryException e) {
+                    MessageBox.Show($"Out of memory exception thrown! Too many people placed in line\n\n{e.Message}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }}));
+            writeVar.Clear();
+            backgroundWorker1.ReportProgress(progress);
         }
 
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e) {
-            // While eventlist is not empty
-            while (!eventList.isEmpty()) {
-                // Invoke control of the GUI if 1000 lines have been written
-                if (count == 1000) {
-                    updateGUI();
+        private void appendToSumBox(int progress) {
+            this.Invoke(new MethodInvoker(delegate {
+                try {
+                    this.finalsumm.AppendText(writeVar.ToString());
+                } catch (OutOfMemoryException e) {
+                    MessageBox.Show($"Out of memory exception thrown! Too many people placed in line\n\n{e.Message}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-                // Take next event from the ordered event list
-                Event nextEvent = eventList.Dequeue();
-
-                // If it's an arrival event
-                if (nextEvent.getType() == Event.ARRIVAL) {
-                    // Process arrival
-                    processArrival(nextEvent);
-                // If it's a departure event
-                } else if (nextEvent.getType() == Event.DEPARTURE) {
-                    // Process departure
-                    processDeparture();
-                }
-            }
-
-            // Write rest of writeVar to textbox
-            updateGUI();
-
-            generateFinalSummary();
-        }
-
-        private void updateGUI() {
-            backgroundWorker1.ReportProgress(count);
-            this.Invoke(new MethodInvoker(delegate () {
-                textBox1.AppendText(writeVar);
             }));
-            writeVar = "";
-            count = 0;
-        }
-
-        private void updateGUI(int i) {
-            backgroundWorker1.ReportProgress(i);
-            this.Invoke(new MethodInvoker(delegate () {
-                textBox1.AppendText(writeVar);
-            }));
-            writeVar = "";
+            writeVar.Clear();
+            backgroundWorker1.ReportProgress(progress);
         }
 
         /// <summary>
@@ -290,21 +313,25 @@ namespace Assignment_2 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e) {
-            progress.Value += e.ProgressPercentage;
+            progress.Value = e.ProgressPercentage;
 
-            double processingReport = (double) progress.Maximum * (2d / 3d);
-            int intProcessingReport = (int) processingReport;
+            int processingReport = (int)((double) progress.Maximum * (2d / 3d));
 
-            if (intProcessingReport == progress.Value) {
+            // Done simulation
+            if (processingReport == progress.Value) {
                 simulating.Visible = false;
                 finalsummary.Visible = true;
             }
 
+            // Done finalsummary
             if (progress.Value == progress.Maximum) {
-                textBox1.Visible = true;
+                simoutput.Visible = true;
                 outputfile.Visible = true;
                 finalsummary.Visible = false;
                 progress.Visible = false;
+                finalsumm.Visible = true;
+                simout.Visible = true;
+                sumout.Visible = true;
             }
         }
 
@@ -312,36 +339,38 @@ namespace Assignment_2 {
         /// Generate final summary for customers visiting in simulation
         /// </summary>
         private void generateFinalSummary() {
-            writeVar += Environment.NewLine;
-            writeVar += "All events complete. Final summary: ";
-            writeVar += Environment.NewLine;
-            writeVar += Environment.NewLine;
-            writeVar += "Customer Number | Arrival Time | Wait Time | Arrival At Window | Window Time | Departed At";
-            writeVar += Environment.NewLine;
-            writeVar += "------------------------------------------------------------------------------------------";
-            writeVar += Environment.NewLine;
+            try {
+                writeVar.Append("All events complete. Final summary: ");
+                writeVar.Append(Environment.NewLine);
+                writeVar.Append(Environment.NewLine);
+                writeVar.Append("Customer Number | Arrival Time | Wait Time | Arrival At Window | Window Time | Departed At");
+                writeVar.Append(Environment.NewLine);
+                writeVar.Append("------------------------------------------------------------------------------------------");
+                writeVar.Append(Environment.NewLine);
 
-            // Iterates through all visited customers
-            for (int i = 0; i < peopleServed.Count; i++) {
-                Person person = (Person) peopleServed[i];
-                writeVar += String.Format("{0,15} | {1,12} | {2,9} | {3,17} | {4,11} | {5,11}",
-                    person.getPersonNumber(),
-                    person.getArrivalTime(),
-                    person.getWaitTime(),
-                    person.getArrivalAtWindow(),
-                    person.getWindowTime(),
-                    person.getDepartureTime()
-                    );
-                writeVar +=Environment.NewLine;
-
-                // When 1000 lines have been generated, invoke UI thread and append text
-                if ((i % 1000) == 0) {
-                    updateGUI(1000);
+                // Iterates through all visited customers
+                while (peopleServed.Count > 0) {
+                    if (counter % progressBarUpdate == 0) {
+                        backgroundWorker1.ReportProgress(counter);
+                        //appendToSumBox(counter);
+                    }
+                    Person person = peopleServed.First.Value;
+                    writeVar.Append(String.Format("{0,15} | {1,12} | {2,9} | {3,17} | {4,11} | {5,11}",
+                        person.getPersonNumber(),
+                        person.getArrivalTime(),
+                        person.getWaitTime(),
+                        person.getArrivalAtWindow(),
+                        person.getWindowTime(),
+                        person.getDepartureTime()
+                        ));
+                    writeVar.Append(Environment.NewLine);
+                    peopleServed.RemoveFirst();
+                    counter++;
                 }
+            } catch (Exception e) {
+                MessageBox.Show($"Error {e.Message}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
             }
-
-            // Append rest to gui
-            updateGUI();
         }
 
         /// <summary>
@@ -351,11 +380,13 @@ namespace Assignment_2 {
             string path = "";
 
             // Builds user dialog
-            OpenFileDialog selectFolder = new OpenFileDialog() {
+            SaveFileDialog selectFolder = new SaveFileDialog() {
                 FileName = "output.txt",
+                DefaultExt = "txt",
                 Filter = "Text files (*.txt)|*.txt",
                 Title = "Select where to output bank lineup file",
-                CheckFileExists = false
+                CheckFileExists = false,
+                CreatePrompt = true
             };
 
             // Shows user dialog box
@@ -369,7 +400,7 @@ namespace Assignment_2 {
                 MessageBox.Show($"User cancelled file output.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            File.WriteAllText(path, textBox1.Text);
+            File.WriteAllText(path, simoutput.Text + finalsumm.Text);
         }
     }
 }

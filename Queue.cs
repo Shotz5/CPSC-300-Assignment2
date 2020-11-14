@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Assignment_2 {
+
 	/// <summary>
 	/// FIFO Queue structure
 	/// </summary>
 	public class Queue {
 
-		private static ArrayList queue;
+		private static LinkedList<Person> queue;
 
 		/// <summary>
 		/// Initialize a queue
 		/// </summary>
 		public Queue() {
-			queue = new ArrayList();
+			queue = new LinkedList<Person>();
 		}
 
 		/// <summary>
@@ -21,8 +23,8 @@ namespace Assignment_2 {
 		/// </summary>
 		/// <returns>Person</returns>
 		public Person popQueue() {
-			Person p = (Person) queue[0];
-			queue.RemoveAt(0);
+			Person p = queue.First.Value;
+			queue.RemoveFirst();
 			return p;
         }
 
@@ -31,7 +33,7 @@ namespace Assignment_2 {
 		/// </summary>
 		/// <param name="p"></param>
 		public void pushQueue(Person p) {
-			queue.Add(p);
+			queue.AddLast(p);
         }
 		
 		/// <summary>
@@ -60,7 +62,7 @@ namespace Assignment_2 {
 		/// <returns>Person</returns>
 		public Person peek() {
 			if (queue.Count != 0) {
-				return (Person)queue[0];
+				return queue.First.Value;
 			} else {
 				return null;
             }
