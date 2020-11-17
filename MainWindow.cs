@@ -42,6 +42,7 @@ namespace Assignment_2 {
         private void InputButton_Click(object sender, EventArgs e) {
             // Sets default parameters for Windows file section box
             OpenFileDialog openFile = new OpenFileDialog() {
+                InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
                 FileName = "BankFile.txt",
                 Filter = "Text files (*.txt)|*.txt",
                 Title = "Open Bank Lineup File"
@@ -53,9 +54,6 @@ namespace Assignment_2 {
             // If user selects file and clicks 'ok'
             if (result == DialogResult.OK) {
                 try {
-                    // Update UI
-                    CheckLabel.Visible = true;
-                    InputButton.Visible = false;
                     // Run CheckFile
                     if (!CheckFile(openFile.FileName)) {
                         return;
@@ -94,6 +92,14 @@ namespace Assignment_2 {
         /// </summary>
         /// <returns>boolean true = continue / false = stop</returns>
         private bool CheckFile(string filePath) {
+            // Update UI
+            InputButton.Visible = false;
+            label1.Visible = false;
+            label2.Visible = false;
+            label3.Visible = false;
+            label4.Visible = false;
+            label5.Visible = false;
+
             FileInput = new StreamReader(filePath);
             string nextLine;
             int lastArrivalTime = 0;
@@ -131,7 +137,7 @@ namespace Assignment_2 {
             if ((lineCount) > 1000000) {
                 MessageBox.Show("Too many people entered.\n\nLikely chance that system will hang" +
                     " or System.OutOfMemoryException will occur.\n\n" +
-                    "Please make sure you enter 1000000 people or less to guarantee exectution.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "Please make sure you enter 1,000,000 people or less to guarantee exectution.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -400,6 +406,7 @@ namespace Assignment_2 {
         /// </summary>
         private void GenerateFinalSummary() {
             try {
+                TextOutput.Append(Environment.NewLine);
                 TextOutput.Append("All events complete. Final summary: ");
                 TextOutput.Append(Environment.NewLine);
                 TextOutput.Append(Environment.NewLine);
@@ -441,6 +448,7 @@ namespace Assignment_2 {
 
             // Builds user dialog
             SaveFileDialog selectFolder = new SaveFileDialog() {
+                InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
                 FileName = "output.txt",
                 DefaultExt = "txt",
                 Filter = "Text files (*.txt)|*.txt",

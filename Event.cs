@@ -1,6 +1,7 @@
 ﻿/// Assignment 2 Event class for building an event
 
 using System;
+using System.Windows.Forms;
 
 namespace Assignment_2 {
     /// <summary>
@@ -22,6 +23,10 @@ namespace Assignment_2 {
         /// <param name="EventPerson"></param>
         public Event(int EventType, int EventTime, Person EventPerson) {
             this.EventType = EventType;
+            if (EventTime < 0) {
+                MessageBox.Show($"Integer Overflow Exception. Time or WaitTime is set too high.\n\nPlease ensure people aren't arriving or waiting outside of {int.MaxValue}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Restart();
+            }
             this.EventTime = EventTime;
             this.EventPerson = EventPerson;
         }
