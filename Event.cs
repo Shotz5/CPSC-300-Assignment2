@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿/// Assignment 2 Event class for building an event
+
+using System;
 
 namespace Assignment_2 {
     /// <summary>
@@ -13,44 +10,44 @@ namespace Assignment_2 {
         public readonly static int ARRIVAL = 0;
         public readonly static int DEPARTURE = 1;
 
-        private int type;
-        private int time;
-        private Person person;
+        private int EventType;
+        private int EventTime;
+        private Person EventPerson;
 
         /// <summary>
         /// Initialize an Event
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="time"></param>
-        /// <param name="person"></param>
-        public Event(int type, int time, Person person) {
-            this.type = type;
-            this.time = time;
-            this.person = person;
+        /// <param name="EventType"></param>
+        /// <param name="EventTime"></param>
+        /// <param name="EventPerson"></param>
+        public Event(int EventType, int EventTime, Person EventPerson) {
+            this.EventType = EventType;
+            this.EventTime = EventTime;
+            this.EventPerson = EventPerson;
         }
 
         /// <summary>
-        /// Get type of event
+        /// Get EventType of event
         /// </summary>
         /// <returns>Int - 0 - ARRIVAL / 1 - DEPARTURE</returns>
-        public int getType() {
-            return type;
+        public int GetEventType() {
+            return EventType;
         }
 
         /// <summary>
-        /// Get person tied to the event
+        /// Get EventPerson tied to the event
         /// </summary>
         /// <returns>Person</returns>
-        public Person getPerson() {
-            return person;
+        public Person GetPerson() {
+            return EventPerson;
         }
 
         /// <summary>
-        /// Gets time of event
+        /// Gets EventTime of event
         /// </summary>
-        /// <returns>int time</returns>
-        public int getTime() {
-            return time;
+        /// <returns>int EventTime</returns>
+        public int GetTime() {
+            return EventTime;
         }
     }
 }

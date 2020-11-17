@@ -1,47 +1,48 @@
-﻿using System;
-using System.Collections;
+﻿/// Assignment 2 Queue class for person queues
+
+using System;
 using System.Collections.Generic;
 
 namespace Assignment_2 {
 
 	/// <summary>
-	/// FIFO Queue structure
+	/// FIFO ListQueue structure
 	/// </summary>
 	public class Queue {
 
-		private static LinkedList<Person> queue;
+		private static LinkedList<Person> ListQueue;
 
 		/// <summary>
-		/// Initialize a queue
+		/// Initialize a ListQueue
 		/// </summary>
 		public Queue() {
-			queue = new LinkedList<Person>();
+			ListQueue = new LinkedList<Person>();
 		}
 
 		/// <summary>
-		/// Remove an item from the beginning of the queue
+		/// Remove an item from the beginning of the ListQueue
 		/// </summary>
 		/// <returns>Person</returns>
-		public Person popQueue() {
-			Person p = queue.First.Value;
-			queue.RemoveFirst();
+		public Person Dequeue() {
+			Person p = ListQueue.First.Value;
+			ListQueue.RemoveFirst();
 			return p;
         }
 
 		/// <summary>
-		/// Pushes an item to the end of the queue
+		/// Pushes an item to the end of the ListQueue
 		/// </summary>
 		/// <param name="p"></param>
-		public void pushQueue(Person p) {
-			queue.AddLast(p);
+		public void Enqueue(Person p) {
+			ListQueue.AddLast(p);
         }
 		
 		/// <summary>
-		/// Checks if Queue is empty
+		/// Checks if ListQueue is empty
 		/// </summary>
 		/// <returns>true - empty / false - not empty</returns>
-		public bool isEmpty() {
-			if (queue.Count == 0) {
+		public bool IsEmpty() {
+			if (ListQueue.Count == 0) {
 				return true;
             } else {
 				return false;
@@ -49,20 +50,20 @@ namespace Assignment_2 {
         }
 
 		/// <summary>
-		/// Returns amount of items in queue
+		/// Returns amount of items in ListQueue
 		/// </summary>
-		/// <returns>int - number of items in queue</returns>
+		/// <returns>int - number of items in ListQueue</returns>
 		public int Count() {
-			return queue.Count;
+			return ListQueue.Count;
         }
 
 		/// <summary>
-		/// Looks at what's on top of queue without popping
+		/// Looks at what's on top of ListQueue without popping
 		/// </summary>
 		/// <returns>Person</returns>
-		public Person peek() {
-			if (queue.Count != 0) {
-				return queue.First.Value;
+		public Person Peek() {
+			if (ListQueue.Count != 0) {
+				return ListQueue.First.Value;
 			} else {
 				return null;
             }

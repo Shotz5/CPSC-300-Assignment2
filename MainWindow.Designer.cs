@@ -30,85 +30,91 @@ namespace Assignment_2
         /// </summary>
         private void InitializeComponent()
         {
-            this.inputfile = new System.Windows.Forms.Button();
-            this.outputfile = new System.Windows.Forms.Button();
-            this.simoutput = new System.Windows.Forms.TextBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.finalsummary = new System.Windows.Forms.Label();
-            this.progress = new System.Windows.Forms.ProgressBar();
+            this.InputButton = new System.Windows.Forms.Button();
+            this.OutputButton = new System.Windows.Forms.Button();
+            this.SimOutput = new System.Windows.Forms.TextBox();
+            this.ExecutionThread = new System.ComponentModel.BackgroundWorker();
+            this.GenerateSummLabel = new System.Windows.Forms.Label();
+            this.ProgressBar = new System.Windows.Forms.ProgressBar();
             this.simulating = new System.Windows.Forms.Label();
-            this.finalsumm = new System.Windows.Forms.TextBox();
-            this.simout = new System.Windows.Forms.Label();
-            this.sumout = new System.Windows.Forms.Label();
+            this.FinalSummOutput = new System.Windows.Forms.TextBox();
+            this.SimOutputLabel = new System.Windows.Forms.Label();
+            this.FinalSumLabel = new System.Windows.Forms.Label();
+            this.CheckLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // inputfile
+            // InputButton
             // 
-            this.inputfile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.inputfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.inputfile.Location = new System.Drawing.Point(408, 278);
-            this.inputfile.Name = "inputfile";
-            this.inputfile.Size = new System.Drawing.Size(218, 101);
-            this.inputfile.TabIndex = 0;
-            this.inputfile.Text = "Open Input File";
-            this.inputfile.UseVisualStyleBackColor = true;
-            this.inputfile.Click += new System.EventHandler(this.inputfile_Click);
+            this.InputButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.InputButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.InputButton.Location = new System.Drawing.Point(408, 278);
+            this.InputButton.Name = "InputButton";
+            this.InputButton.Size = new System.Drawing.Size(218, 101);
+            this.InputButton.TabIndex = 0;
+            this.InputButton.Text = "Open Input File";
+            this.InputButton.UseVisualStyleBackColor = true;
+            this.InputButton.Click += new System.EventHandler(this.InputButton_Click);
             // 
-            // outputfile
+            // OutputButton
             // 
-            this.outputfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.outputfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.outputfile.Location = new System.Drawing.Point(831, 584);
-            this.outputfile.Name = "outputfile";
-            this.outputfile.Size = new System.Drawing.Size(172, 48);
-            this.outputfile.TabIndex = 1;
-            this.outputfile.Text = "Output All to .txt file";
-            this.outputfile.UseVisualStyleBackColor = true;
-            this.outputfile.Visible = false;
-            this.outputfile.Click += new System.EventHandler(this.outputfile_Click);
+            this.OutputButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OutputButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OutputButton.Location = new System.Drawing.Point(831, 584);
+            this.OutputButton.Name = "OutputButton";
+            this.OutputButton.Size = new System.Drawing.Size(172, 48);
+            this.OutputButton.TabIndex = 1;
+            this.OutputButton.Text = "Output All to .txt file";
+            this.OutputButton.UseVisualStyleBackColor = true;
+            this.OutputButton.Visible = false;
+            this.OutputButton.Click += new System.EventHandler(this.OutputButton_Click);
             // 
-            // simoutput
+            // SimOutput
             // 
-            this.simoutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.SimOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SimOutput.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SimOutput.Location = new System.Drawing.Point(12, 12);
+            this.SimOutput.MaxLength = 0;
+            this.SimOutput.Multiline = true;
+            this.SimOutput.Name = "SimOutput";
+            this.SimOutput.ReadOnly = true;
+            this.SimOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.SimOutput.Size = new System.Drawing.Size(1010, 296);
+            this.SimOutput.TabIndex = 2;
+            this.SimOutput.Visible = false;
+            // 
+            // ExecutionThread
+            // 
+            this.ExecutionThread.WorkerReportsProgress = true;
+            this.ExecutionThread.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ExecutionThread_DoWork);
+            this.ExecutionThread.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ExecutionThread_ProgressChanged);
+            // 
+            // GenerateSummLabel
+            // 
+            this.GenerateSummLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.simoutput.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simoutput.Location = new System.Drawing.Point(12, 12);
-            this.simoutput.MaxLength = 0;
-            this.simoutput.Multiline = true;
-            this.simoutput.Name = "simoutput";
-            this.simoutput.ReadOnly = true;
-            this.simoutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.simoutput.Size = new System.Drawing.Size(1010, 296);
-            this.simoutput.TabIndex = 2;
-            this.simoutput.Visible = false;
+            this.GenerateSummLabel.AutoSize = true;
+            this.GenerateSummLabel.BackColor = System.Drawing.SystemColors.Window;
+            this.GenerateSummLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GenerateSummLabel.Location = new System.Drawing.Point(354, 303);
+            this.GenerateSummLabel.Name = "GenerateSummLabel";
+            this.GenerateSummLabel.Padding = new System.Windows.Forms.Padding(5);
+            this.GenerateSummLabel.Size = new System.Drawing.Size(326, 39);
+            this.GenerateSummLabel.TabIndex = 3;
+            this.GenerateSummLabel.Text = "Generating Final Summary...";
+            this.GenerateSummLabel.Visible = false;
             // 
-            // backgroundWorker1
+            // ProgressBar
             // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            // 
-            // finalsummary
-            // 
-            this.finalsummary.AutoSize = true;
-            this.finalsummary.BackColor = System.Drawing.SystemColors.Window;
-            this.finalsummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.finalsummary.Location = new System.Drawing.Point(354, 303);
-            this.finalsummary.Name = "finalsummary";
-            this.finalsummary.Padding = new System.Windows.Forms.Padding(5);
-            this.finalsummary.Size = new System.Drawing.Size(326, 39);
-            this.finalsummary.TabIndex = 3;
-            this.finalsummary.Text = "Generating Final Summary...";
-            this.finalsummary.Visible = false;
-            // 
-            // progress
-            // 
-            this.progress.Location = new System.Drawing.Point(389, 385);
-            this.progress.Name = "progress";
-            this.progress.Size = new System.Drawing.Size(256, 37);
-            this.progress.TabIndex = 4;
-            this.progress.Visible = false;
+            this.ProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProgressBar.Location = new System.Drawing.Point(389, 385);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(256, 37);
+            this.ProgressBar.TabIndex = 4;
+            this.ProgressBar.Visible = false;
             // 
             // simulating
             // 
@@ -123,44 +129,64 @@ namespace Assignment_2
             this.simulating.Text = "Simulating...";
             this.simulating.Visible = false;
             // 
-            // finalsumm
+            // FinalSummOutput
             // 
-            this.finalsumm.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.finalsumm.Location = new System.Drawing.Point(12, 353);
-            this.finalsumm.MaxLength = 0;
-            this.finalsumm.Multiline = true;
-            this.finalsumm.Name = "finalsumm";
-            this.finalsumm.ReadOnly = true;
-            this.finalsumm.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.finalsumm.Size = new System.Drawing.Size(1010, 279);
-            this.finalsumm.TabIndex = 6;
-            this.finalsumm.Visible = false;
+            this.FinalSummOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FinalSummOutput.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FinalSummOutput.Location = new System.Drawing.Point(12, 353);
+            this.FinalSummOutput.MaxLength = 0;
+            this.FinalSummOutput.Multiline = true;
+            this.FinalSummOutput.Name = "FinalSummOutput";
+            this.FinalSummOutput.ReadOnly = true;
+            this.FinalSummOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.FinalSummOutput.Size = new System.Drawing.Size(1010, 279);
+            this.FinalSummOutput.TabIndex = 6;
+            this.FinalSummOutput.Visible = false;
             // 
-            // simout
+            // SimOutputLabel
             // 
-            this.simout.AutoSize = true;
-            this.simout.BackColor = System.Drawing.SystemColors.Window;
-            this.simout.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simout.Location = new System.Drawing.Point(12, 311);
-            this.simout.Name = "simout";
-            this.simout.Padding = new System.Windows.Forms.Padding(5);
-            this.simout.Size = new System.Drawing.Size(230, 39);
-            this.simout.TabIndex = 7;
-            this.simout.Text = "^ Simulation Output";
-            this.simout.Visible = false;
+            this.SimOutputLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.SimOutputLabel.AutoSize = true;
+            this.SimOutputLabel.BackColor = System.Drawing.SystemColors.Window;
+            this.SimOutputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SimOutputLabel.Location = new System.Drawing.Point(12, 311);
+            this.SimOutputLabel.Name = "SimOutputLabel";
+            this.SimOutputLabel.Padding = new System.Windows.Forms.Padding(5);
+            this.SimOutputLabel.Size = new System.Drawing.Size(230, 39);
+            this.SimOutputLabel.TabIndex = 7;
+            this.SimOutputLabel.Text = "^ Simulation Output";
+            this.SimOutputLabel.Visible = false;
             // 
-            // sumout
+            // FinalSumLabel
             // 
-            this.sumout.AutoSize = true;
-            this.sumout.BackColor = System.Drawing.SystemColors.Window;
-            this.sumout.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sumout.Location = new System.Drawing.Point(822, 311);
-            this.sumout.Name = "sumout";
-            this.sumout.Padding = new System.Windows.Forms.Padding(5);
-            this.sumout.Size = new System.Drawing.Size(200, 39);
-            this.sumout.TabIndex = 8;
-            this.sumout.Text = "v Final Summary";
-            this.sumout.Visible = false;
+            this.FinalSumLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.FinalSumLabel.AutoSize = true;
+            this.FinalSumLabel.BackColor = System.Drawing.SystemColors.Window;
+            this.FinalSumLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FinalSumLabel.Location = new System.Drawing.Point(822, 311);
+            this.FinalSumLabel.Name = "FinalSumLabel";
+            this.FinalSumLabel.Padding = new System.Windows.Forms.Padding(5);
+            this.FinalSumLabel.Size = new System.Drawing.Size(200, 39);
+            this.FinalSumLabel.TabIndex = 8;
+            this.FinalSumLabel.Text = "v Final Summary";
+            this.FinalSumLabel.Visible = false;
+            // 
+            // CheckLabel
+            // 
+            this.CheckLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CheckLabel.AutoSize = true;
+            this.CheckLabel.BackColor = System.Drawing.SystemColors.Window;
+            this.CheckLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CheckLabel.Location = new System.Drawing.Point(423, 303);
+            this.CheckLabel.Name = "CheckLabel";
+            this.CheckLabel.Padding = new System.Windows.Forms.Padding(5);
+            this.CheckLabel.Size = new System.Drawing.Size(189, 39);
+            this.CheckLabel.TabIndex = 9;
+            this.CheckLabel.Text = "Checking File...";
+            this.CheckLabel.Visible = false;
             // 
             // MainWindow
             // 
@@ -169,15 +195,16 @@ namespace Assignment_2
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.MenuText;
             this.ClientSize = new System.Drawing.Size(1034, 644);
-            this.Controls.Add(this.sumout);
-            this.Controls.Add(this.simout);
+            this.Controls.Add(this.CheckLabel);
+            this.Controls.Add(this.FinalSumLabel);
+            this.Controls.Add(this.SimOutputLabel);
             this.Controls.Add(this.simulating);
-            this.Controls.Add(this.progress);
-            this.Controls.Add(this.finalsummary);
-            this.Controls.Add(this.outputfile);
-            this.Controls.Add(this.inputfile);
-            this.Controls.Add(this.simoutput);
-            this.Controls.Add(this.finalsumm);
+            this.Controls.Add(this.ProgressBar);
+            this.Controls.Add(this.GenerateSummLabel);
+            this.Controls.Add(this.OutputButton);
+            this.Controls.Add(this.InputButton);
+            this.Controls.Add(this.SimOutput);
+            this.Controls.Add(this.FinalSummOutput);
             this.Name = "MainWindow";
             this.Text = "Bank Line Simulator";
             this.ResumeLayout(false);
@@ -187,16 +214,17 @@ namespace Assignment_2
 
         #endregion
 
-        private Button inputfile;
-        private Button outputfile;
-        private TextBox simoutput;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private Label finalsummary;
-        private ProgressBar progress;
+        private Button InputButton;
+        private Button OutputButton;
+        private TextBox SimOutput;
+        private System.ComponentModel.BackgroundWorker ExecutionThread;
+        private Label GenerateSummLabel;
+        private ProgressBar ProgressBar;
         private Label simulating;
-        private TextBox finalsumm;
-        private Label simout;
-        private Label sumout;
+        private TextBox FinalSummOutput;
+        private Label SimOutputLabel;
+        private Label FinalSumLabel;
+        private Label CheckLabel;
     }
 }
 

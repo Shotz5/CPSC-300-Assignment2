@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿/// Assignment 2 EventList class for Event queue
+
+using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Assignment_2 {
     public class EventList {
@@ -9,13 +9,13 @@ namespace Assignment_2 {
         /// <summary>
         /// Builds ordered list of events
         /// </summary>
-        private LinkedList<Event> eventList;
+        private LinkedList<Event> ListEvents;
 
         /// <summary>
         /// Initializes an EventList
         /// </summary>
         public EventList() {
-            eventList = new LinkedList<Event>();
+            ListEvents = new LinkedList<Event>();
         }
 
         /// <summary>
@@ -24,31 +24,27 @@ namespace Assignment_2 {
         /// </summary>
         /// <param name="eve"></param>
         public void Enqueue(Event eve) {
-            if (eventList.Count == 0) {
-                eventList.AddFirst(eve);
-            } else if (eventList.Count == 1) {
-                if (((Event)eventList.First.Value).getTime() < eve.getTime()) {
-                    eventList.AddLast(eve);
+            // If empty enqueue at 0
+            if (ListEvents.Count == 0) {
+                ListEvents.AddFirst(eve);
+            // If list only has one value, solve with if
+            } else if (ListEvents.Count == 1) {
+                if (((Event)ListEvents.First.Value).GetTime() < eve.GetTime()) {
+                    ListEvents.AddLast(eve);
                 } else {
-                    eventList.AddFirst(eve);
+                    ListEvents.AddFirst(eve);
                 }
+            // Linear search insert
             } else {
-                LinkedListNode<Event> nextEvent = eventList.First;
-                while (nextEvent.Value.getTime() < eve.getTime()) {
+                LinkedListNode<Event> nextEvent = ListEvents.First;
+                while (nextEvent.Value.GetTime() < eve.GetTime()) {
                     nextEvent = nextEvent.Next;
                     if (nextEvent == null) {
-                        eventList.AddLast(eve);
+                        ListEvents.AddLast(eve);
                         return;
                     }
                 }
-                eventList.AddAfter(nextEvent, eve);
-
-                /*for (int i = 0; i < eventList.Count; i++) {
-                    if (((Event)eventList[i]).getTime() > eve.getTime()) {
-                        eventList.Insert(i, eve);
-                        break;
-                    }
-                }*/
+                ListEvents.AddAfter(nextEvent, eve);
             }
         }
 
@@ -57,8 +53,8 @@ namespace Assignment_2 {
         /// </summary>
         /// <returns>Event</returns>
         public Event Dequeue() {
-            Event eve = eventList.First.Value;
-            eventList.RemoveFirst();
+            Event eve = ListEvents.First.Value;
+            ListEvents.RemoveFirst();
             return eve;
         }
 
@@ -66,8 +62,8 @@ namespace Assignment_2 {
 		/// Checks if EventList is empty
 		/// </summary>
 		/// <returns>true - empty / false - not empty</returns>
-        public bool isEmpty() {
-            if (eventList.Count == 0) {
+        public bool IsEmpty() {
+            if (ListEvents.Count == 0) {
                 return true;
             } else {
                 return false;
@@ -79,7 +75,7 @@ namespace Assignment_2 {
 		/// </summary>
 		/// <returns>int - number of items in EventList</returns>
         public int Count() {
-            return eventList.Count;
+            return ListEvents.Count;
         }
     }
 }
