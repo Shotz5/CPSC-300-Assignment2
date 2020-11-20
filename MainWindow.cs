@@ -54,8 +54,17 @@ namespace Assignment_2 {
             // If user selects file and clicks 'ok'
             if (result == DialogResult.OK) {
                 try {
+                    
                     // Run CheckFile
                     if (!CheckFile(openFile.FileName)) {
+                        // Reset UI Changes
+                        CheckLabel.Visible = false;
+                        InputButton.Visible = true;
+                        label1.Visible = true;
+                        label2.Visible = true;
+                        label3.Visible = true;
+                        label4.Visible = true;
+                        label5.Visible = true;
                         return;
                     }
                 } catch (Exception ex) {
@@ -67,8 +76,7 @@ namespace Assignment_2 {
                 return;
             }
 
-            // Hide input file selection button
-            InputButton.Visible = false;
+            // Hide "Checking..." Label
             CheckLabel.Visible = false;
 
             // Show progress bar and set progrss bar values
@@ -83,7 +91,7 @@ namespace Assignment_2 {
             // And put it in the event list
             EventList.Enqueue(firstArrival);
 
-            // Run Main execution async from GUI thread
+            // Run Main execution async from GUI thread, goes to ExecutionThread.DoWork()
             ExecutionThread.RunWorkerAsync();
         }
 
@@ -92,13 +100,19 @@ namespace Assignment_2 {
         /// </summary>
         /// <returns>boolean true = continue / false = stop</returns>
         private bool CheckFile(string filePath) {
-            // Update UI
+            CheckLabel.Visible = true;
             InputButton.Visible = false;
             label1.Visible = false;
             label2.Visible = false;
             label3.Visible = false;
             label4.Visible = false;
             label5.Visible = false;
+
+            // The only possible file you can bring in is a .txt file, but this is here as a just-in-case
+            if (Path.GetExtension(filePath) != ".txt") {
+                MessageBox.Show("Unable to parse input file.\n\nFile is not a .txt file.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
 
             FileInput = new StreamReader(filePath);
             string nextLine;
@@ -113,6 +127,7 @@ namespace Assignment_2 {
 
                 // If there was an error parsing a person
                 if (p == null) {
+                    FileInput.Close();
                     return false;
                 }
 
@@ -122,6 +137,7 @@ namespace Assignment_2 {
                 // If arrivalTimes aren't in order, or windowTime is negative
                 if (lastArrivalTime > thisArrivalTime || thisWindowTime < 1) {
                     MessageBox.Show($"Unable to parse input file at Line {lineCount} : {nextLine}\n\n Times are not in numerical order from smallest to largest or Time at window is invalid.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    FileInput.Close();
                     return false;
                 }
                 lastArrivalTime = thisArrivalTime;
@@ -130,6 +146,7 @@ namespace Assignment_2 {
             // If file is empty
             if (lineCount == 0) {
                 MessageBox.Show("Unable to parse input file.\n\nFile is empty.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                FileInput.Close();
                 return false;
             }
 
@@ -138,6 +155,7 @@ namespace Assignment_2 {
                 MessageBox.Show("Too many people entered.\n\nLikely chance that system will hang" +
                     " or System.OutOfMemoryException will occur.\n\n" +
                     "Please make sure you enter 1,000,000 people or less to guarantee exectution.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                FileInput.Close();
                 return false;
             }
 
