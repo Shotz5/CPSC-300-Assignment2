@@ -20,7 +20,7 @@ namespace Assignment_2 {
 
         /// <summary>
         /// <para>Numberically place an event in the queue</para>
-        /// <para>Uses linear search because I can't be bothered to implement a better one right now</para>
+        /// <para>Uses linear search because even with a million people, it still executes with relative efficiency</para>
         /// </summary>
         /// <param name="eve"></param>
         public void Enqueue(Event eve) {

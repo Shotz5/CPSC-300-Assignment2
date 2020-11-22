@@ -58,7 +58,7 @@ namespace Assignment_2
             // 
             this.InputButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.InputButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.InputButton.Location = new System.Drawing.Point(536, 482);
+            this.InputButton.Location = new System.Drawing.Point(228, 287);
             this.InputButton.Name = "InputButton";
             this.InputButton.Size = new System.Drawing.Size(218, 101);
             this.InputButton.TabIndex = 0;
@@ -70,7 +70,7 @@ namespace Assignment_2
             // 
             this.OutputButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OutputButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OutputButton.Location = new System.Drawing.Point(1068, 360);
+            this.OutputButton.Location = new System.Drawing.Point(453, 171);
             this.OutputButton.Name = "OutputButton";
             this.OutputButton.Size = new System.Drawing.Size(172, 48);
             this.OutputButton.TabIndex = 1;
@@ -91,7 +91,7 @@ namespace Assignment_2
             this.SimOutput.Name = "SimOutput";
             this.SimOutput.ReadOnly = true;
             this.SimOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.SimOutput.Size = new System.Drawing.Size(1266, 387);
+            this.SimOutput.Size = new System.Drawing.Size(651, 187);
             this.SimOutput.TabIndex = 2;
             this.SimOutput.Visible = false;
             // 
@@ -106,7 +106,7 @@ namespace Assignment_2
             this.GenerateSummLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.GenerateSummLabel.BackColor = System.Drawing.SystemColors.Window;
             this.GenerateSummLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GenerateSummLabel.Location = new System.Drawing.Point(492, 303);
+            this.GenerateSummLabel.Location = new System.Drawing.Point(184, 303);
             this.GenerateSummLabel.Name = "GenerateSummLabel";
             this.GenerateSummLabel.Padding = new System.Windows.Forms.Padding(5);
             this.GenerateSummLabel.Size = new System.Drawing.Size(326, 39);
@@ -117,7 +117,7 @@ namespace Assignment_2
             // ProgressBar
             // 
             this.ProgressBar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ProgressBar.Location = new System.Drawing.Point(413, 503);
+            this.ProgressBar.Location = new System.Drawing.Point(105, 308);
             this.ProgressBar.Name = "ProgressBar";
             this.ProgressBar.Size = new System.Drawing.Size(470, 34);
             this.ProgressBar.TabIndex = 4;
@@ -128,7 +128,7 @@ namespace Assignment_2
             this.simulating.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.simulating.BackColor = System.Drawing.SystemColors.Window;
             this.simulating.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simulating.Location = new System.Drawing.Point(578, 303);
+            this.simulating.Location = new System.Drawing.Point(270, 303);
             this.simulating.Name = "simulating";
             this.simulating.Padding = new System.Windows.Forms.Padding(5);
             this.simulating.Size = new System.Drawing.Size(154, 39);
@@ -148,7 +148,7 @@ namespace Assignment_2
             this.FinalSummOutput.Name = "FinalSummOutput";
             this.FinalSummOutput.ReadOnly = true;
             this.FinalSummOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.FinalSummOutput.Size = new System.Drawing.Size(1266, 408);
+            this.FinalSummOutput.Size = new System.Drawing.Size(651, 219);
             this.FinalSummOutput.TabIndex = 6;
             this.FinalSummOutput.Visible = false;
             // 
@@ -157,7 +157,7 @@ namespace Assignment_2
             this.SimOutputLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SimOutputLabel.BackColor = System.Drawing.SystemColors.Window;
             this.SimOutputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SimOutputLabel.Location = new System.Drawing.Point(0, 393);
+            this.SimOutputLabel.Location = new System.Drawing.Point(0, 193);
             this.SimOutputLabel.Name = "SimOutputLabel";
             this.SimOutputLabel.Padding = new System.Windows.Forms.Padding(5);
             this.SimOutputLabel.Size = new System.Drawing.Size(230, 39);
@@ -170,7 +170,7 @@ namespace Assignment_2
             this.FinalSumLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.FinalSumLabel.BackColor = System.Drawing.SystemColors.Window;
             this.FinalSumLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FinalSumLabel.Location = new System.Drawing.Point(1066, 393);
+            this.FinalSumLabel.Location = new System.Drawing.Point(451, 193);
             this.FinalSumLabel.Name = "FinalSumLabel";
             this.FinalSumLabel.Padding = new System.Windows.Forms.Padding(5);
             this.FinalSumLabel.Size = new System.Drawing.Size(200, 39);
@@ -184,7 +184,7 @@ namespace Assignment_2
             this.CheckLabel.AutoSize = true;
             this.CheckLabel.BackColor = System.Drawing.SystemColors.Window;
             this.CheckLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CheckLabel.Location = new System.Drawing.Point(539, 8);
+            this.CheckLabel.Location = new System.Drawing.Point(231, 8);
             this.CheckLabel.Name = "CheckLabel";
             this.CheckLabel.Padding = new System.Windows.Forms.Padding(5);
             this.CheckLabel.Size = new System.Drawing.Size(189, 39);
@@ -197,7 +197,7 @@ namespace Assignment_2
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.BackColor = System.Drawing.SystemColors.Window;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(408, 90);
+            this.label1.Location = new System.Drawing.Point(100, 90);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(5);
             this.label1.Size = new System.Drawing.Size(475, 39);
@@ -209,7 +209,7 @@ namespace Assignment_2
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.BackColor = System.Drawing.SystemColors.Window;
             this.label2.Font = new System.Drawing.Font("Courier New", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(599, 129);
+            this.label2.Location = new System.Drawing.Point(291, 129);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(5);
             this.label2.Size = new System.Drawing.Size(92, 37);
@@ -221,7 +221,7 @@ namespace Assignment_2
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.BackColor = System.Drawing.SystemColors.Window;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(422, 166);
+            this.label3.Location = new System.Drawing.Point(114, 166);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(5);
             this.label3.Size = new System.Drawing.Size(447, 39);
@@ -233,7 +233,7 @@ namespace Assignment_2
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.BackColor = System.Drawing.SystemColors.Window;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(369, 205);
+            this.label4.Location = new System.Drawing.Point(61, 205);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(5);
             this.label4.Size = new System.Drawing.Size(552, 39);
@@ -245,7 +245,7 @@ namespace Assignment_2
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label5.BackColor = System.Drawing.SystemColors.Window;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(321, 244);
+            this.label5.Location = new System.Drawing.Point(13, 244);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(5);
             this.label5.Size = new System.Drawing.Size(648, 39);
@@ -273,8 +273,8 @@ namespace Assignment_2
             this.splitContainer1.Panel2.Controls.Add(this.OutputButton);
             this.splitContainer1.Panel2.Controls.Add(this.FinalSummOutput);
             this.splitContainer1.Panel2.Controls.Add(this.CheckLabel);
-            this.splitContainer1.Size = new System.Drawing.Size(1266, 852);
-            this.splitContainer1.SplitterDistance = 437;
+            this.splitContainer1.Size = new System.Drawing.Size(651, 463);
+            this.splitContainer1.SplitterDistance = 237;
             this.splitContainer1.TabIndex = 15;
             // 
             // MainWindow
@@ -284,7 +284,7 @@ namespace Assignment_2
             this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuText;
-            this.ClientSize = new System.Drawing.Size(1290, 876);
+            this.ClientSize = new System.Drawing.Size(675, 487);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -296,6 +296,7 @@ namespace Assignment_2
             this.Controls.Add(this.GenerateSummLabel);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(691, 526);
             this.Name = "MainWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Bank Line Simulator";
